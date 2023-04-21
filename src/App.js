@@ -4,6 +4,8 @@ import Header from "./components/Header/Header";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Home from "./components/Header/Home/Home";
 import AddBook from "./components/AddBook/AddBook";
+import AuthProvider from "./components/contexts/AuthProvider/AuthProvider";
+import Login from "./components/Login/Login";
 
 function App() {
   const router = createBrowserRouter([
@@ -19,9 +21,17 @@ function App() {
       path: "/add-book",
       element: <AddBook />,
     },
+    {
+      path: "/login",
+      element: <Login />,
+    },
   ]);
 
-  return <RouterProvider router={router} />;
+  return (
+    <AuthProvider>
+      <RouterProvider router={router} />
+    </AuthProvider>
+  );
 }
 
 export default App;

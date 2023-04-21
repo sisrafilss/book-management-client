@@ -1,7 +1,14 @@
 import React, { useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
+import useAuth from "../../hooks/useAuth";
 
 const Header = () => {
+  const { user, logOut } = useAuth();
+
+  const handleLogOut = () => {
+    logOut();
+  };
+
   const [activeRoute, setActiveRoute] = useState("home");
   const navigate = useNavigate();
 
@@ -41,6 +48,23 @@ const Header = () => {
             <NavLink className={"nav-link px-3 mx-2"} to="/add-book">
               Add Book
             </NavLink>
+            {user?.email ? (
+              <>
+                <button
+                  className="btn btn-secondary btn-sm"
+                  onClick={handleLogOut}
+                >
+                  Logout
+                </button>
+                <span className="text-white mt-2 ms-3">
+                  Logged in as {user?.displayName}
+                </span>
+              </>
+            ) : (
+              <NavLink className={"nav-link px-3 mx-2"} to="/login">
+                Login
+              </NavLink>
+            )}
           </div>
         </div>
       </div>
