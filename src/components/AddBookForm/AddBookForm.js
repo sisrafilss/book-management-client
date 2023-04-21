@@ -17,15 +17,16 @@ const AddBookForm = () => {
   } = useForm();
   const onSubmit = (data) => {
     console.log(data);
-    axios.post("http://localhost:5000/add-book", data).then((res) => {
-      if (res?.data?.insertedId) {
-        setSuccess(true);
-      }
-    });
-
-    // reset();
+    axios
+      .post("http://localhost:5000/add-book", data)
+      .then((res) => {
+        if (res?.data?.insertedId) {
+          setSuccess(true);
+          reset();
+        }
+      })
+      .catch((error) => setWarning(true));
   };
-
 
   return (
     <>
@@ -73,7 +74,10 @@ const AddBookForm = () => {
         {success && (
           <div className="row">
             <div className="col-md-4 col-sm-12 mx-auto mt-4">
-              <SuccessMessage success={success} setSuccess={setSuccess}/>
+              <SuccessMessage
+                setSuccess={setSuccess}
+                message="Book Information Added Successfuly!"
+              />
             </div>
           </div>
         )}
@@ -82,7 +86,10 @@ const AddBookForm = () => {
         {warning && (
           <div className="row">
             <div className="col-md-4 col-sm-12 mx-auto mt-4">
-              <WarningMessage />
+              <WarningMessage
+                setWarning={setWarning}
+                message="Somethin Went Wrong! Please try again."
+              />
             </div>
           </div>
         )}

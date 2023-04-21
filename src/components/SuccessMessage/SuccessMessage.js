@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 
-const SuccessMessage = ({ setSuccess }) => {
+const SuccessMessage = ({ setSuccess, message }) => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setSuccess(false);
@@ -11,7 +11,7 @@ const SuccessMessage = ({ setSuccess }) => {
   return (
     <div className="alert alert-success d-flex align-items-center" role="alert">
       <i className="bi bi-check-circle-fill me-2"></i>
-      <div>Book Information Added Successfuly! </div>
+      <div>{message}</div>
     </div>
   );
 };
