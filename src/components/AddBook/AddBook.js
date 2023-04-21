@@ -1,11 +1,12 @@
 import React from "react";
 import Header from "../Header/Header";
+import AddBookForm from "../AddBookForm/AddBookForm";
 
 const AddBook = () => {
   return (
     <>
       <Header />
-      <h2>This is Add Book Route</h2>
+      <AddBookForm />
     </>
   );
 };
