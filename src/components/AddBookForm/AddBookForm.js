@@ -3,6 +3,7 @@ import "./AddBookForm.css";
 import { useForm } from "react-hook-form";
 import SuccessMessage from "../SuccessMessage/SuccessMessage";
 import WarningMessage from "../WarningMessage/WarningMessage";
+import axios from "axios";
 
 const AddBookForm = () => {
   const [success, setSuccess] = useState(false);
@@ -16,8 +17,15 @@ const AddBookForm = () => {
   } = useForm();
   const onSubmit = (data) => {
     console.log(data);
-    reset();
+    axios.post("http://localhost:5000/add-book", data).then((res) => {
+      if (res?.data?.insertedId) {
+        setSuccess(true);
+      }
+    });
+
+    // reset();
   };
+
 
   return (
     <>
@@ -65,7 +73,7 @@ const AddBookForm = () => {
         {success && (
           <div className="row">
             <div className="col-md-4 col-sm-12 mx-auto mt-4">
-              <SuccessMessage />
+              <SuccessMessage success={success} setSuccess={setSuccess}/>
             </div>
           </div>
         )}
