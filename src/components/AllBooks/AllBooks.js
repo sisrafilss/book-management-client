@@ -8,13 +8,17 @@ const AllBooks = () => {
   const [allBooks, setAllBooks] = useState([]);
   const [success, setSuccess] = useState(false);
   const [warning, setWarning] = useState(false);
+  const [searchValue, setSearchValue] = useState("");
+  const [bookStore, setBookStore] = useState([]);
 
   useEffect(() => {
     axios.get("http://localhost:5000/all-books").then((res) => {
       setAllBooks(res?.data);
+      setBookStore(res?.data);
     });
   }, []);
 
+  // handle delete book
   const handleDelete = (id) => {
     const proceed = window.confirm("Are you sure, Want to Delete?");
     if (proceed) {
@@ -23,22 +27,44 @@ const AllBooks = () => {
         .delete(`http://localhost:5000/delete-book/${id}`)
         .then((res) => {
           setSuccess(true);
-          const restBooks = allBooks.filter((book) => book._id !== id);
+          const restBooks = bookStore.filter((book) => book._id !== id);
+          setBookStore(restBooks)
           setAllBooks(restBooks);
         })
         .catch((err) => setWarning(true));
     }
   };
 
+  // handle search
+  const handleSearch = (e) => {
+    setSearchValue(e.target.value);
+
+    console.log(searchValue);
+    const matched = bookStore.filter(
+      (book) =>
+        book.bookTitle.toLowerCase().includes(searchValue.toLowerCase()) ||
+        book.author.toLowerCase().includes(searchValue.toLowerCase())
+    );
+    setAllBooks(matched);
+  };
+
   return (
     <div className="container mt-5">
       <div className="row">
-        {allBooks.length <= 0 ? (
+        {bookStore.length <= 0 ? (
           <div>
             <h2 className="text-center display-4">No Book Found!</h2>
           </div>
         ) : (
           <div className="col-lg-10 col-md-12 text-center my-3 mx-auto">
+            <input
+              className="form-control mb-4 border border-dark"
+              type="search"
+              placeholder="Search by book title or author"
+              aria-label="Search"
+              onChange={handleSearch}
+            />
+
             <table className="table table-hover">
               <thead className="bg-dark text-light">
                 <tr>
@@ -73,7 +99,7 @@ const AllBooks = () => {
       {/* Success */}
       {success && (
         <div className="row">
-          <div className="col-md-4 col-sm-12 mx-auto mt-2">
+          <div className="col-md-4 col-sm-12 mx-auto">
             <SuccessMessage
               setSuccess={setSuccess}
               message="Deleted Successfully!"
@@ -85,7 +111,7 @@ const AllBooks = () => {
       {/* Warning */}
       {warning && (
         <div className="row">
-          <div className="col-md-4 col-sm-12 mx-auto mt-2">
+          <div className="col-md-4 col-sm-12 mx-auto">
             <WarningMessage
               setWarning={setWarning}
               message="Somethin Went Wrong! Please try again."

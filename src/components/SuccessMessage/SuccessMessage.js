@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 
 const SuccessMessage = ({ setSuccess, message }) => {
+  
   useEffect(() => {
     const timer = setTimeout(() => {
       setSuccess(false);
