@@ -6,6 +6,7 @@ import Home from "./components/Header/Home/Home";
 import AddBook from "./components/AddBook/AddBook";
 import AuthProvider from "./components/contexts/AuthProvider/AuthProvider";
 import Login from "./components/Login/Login";
+import Register from "./components/Register/Register";
 
 function App() {
   const router = createBrowserRouter([
@@ -24,6 +25,10 @@ function App() {
     {
       path: "/login",
       element: <Login />,
+    },
+    {
+      path: "/register",
+      element: <Register />,
     },
   ]);
 
