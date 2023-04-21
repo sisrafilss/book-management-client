@@ -1,12 +1,27 @@
 import logo from "./logo.svg";
 import "./App.css";
+import Header from "./components/Header/Header";
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import Home from "./components/Header/Home/Home";
+import AddBook from "./components/AddBook/AddBook";
 
 function App() {
-  return (
-    <div>
-      <h1 className="text-center mt-4 text-success">Welcome to Book Mangement Application</h1>
-    </div>
-  );
+  const router = createBrowserRouter([
+    {
+      path: "/",
+      element: <Home />,
+    },
+    {
+      path: "/home",
+      element: <Home />,
+    },
+    {
+      path: "/add-book",
+      element: <AddBook />,
+    },
+  ]);
+
+  return <RouterProvider router={router} />;
 }
 
 export default App;
