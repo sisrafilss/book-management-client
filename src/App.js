@@ -7,6 +7,8 @@ import AddBook from "./components/AddBook/AddBook";
 import AuthProvider from "./components/contexts/AuthProvider/AuthProvider";
 import Login from "./components/Login/Login";
 import Register from "./components/Register/Register";
+import MakeAdmin from "./components/MakeAdmin/MakeAdmin";
+import PrivateRoute from "./routes/PrivateRoute";
 
 function App() {
   const router = createBrowserRouter([
@@ -20,7 +22,11 @@ function App() {
     },
     {
       path: "/add-book",
-      element: <AddBook />,
+      element: (
+        <PrivateRoute>
+          <AddBook />
+        </PrivateRoute>
+      ),
     },
     {
       path: "/login",
@@ -29,6 +35,14 @@ function App() {
     {
       path: "/register",
       element: <Register />,
+    },
+    {
+      path: "/make-admin",
+      element: (
+        <PrivateRoute>
+          <MakeAdmin />
+        </PrivateRoute>
+      ),
     },
   ]);
 

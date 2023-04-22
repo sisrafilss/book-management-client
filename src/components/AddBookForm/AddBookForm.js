@@ -4,10 +4,13 @@ import { useForm } from "react-hook-form";
 import SuccessMessage from "../SuccessMessage/SuccessMessage";
 import WarningMessage from "../WarningMessage/WarningMessage";
 import axios from "axios";
+import useAuth from "../../hooks/useAuth";
 
 const AddBookForm = () => {
   const [success, setSuccess] = useState(false);
   const [warning, setWarning] = useState(false);
+
+  const { user } = useAuth();
 
   const {
     register,
@@ -16,7 +19,13 @@ const AddBookForm = () => {
     formState: { errors },
   } = useForm();
   const onSubmit = (data) => {
-    console.log(data);
+    if (user?.role !== "admin") {
+      window.alert(
+        "OPPS! You are a subscriber. Only Admin can perform this operation."
+      );
+      return;
+    }
+
     axios
       .post("http://localhost:5000/add-book", data)
       .then((res) => {

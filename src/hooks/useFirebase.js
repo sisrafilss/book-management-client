@@ -10,6 +10,7 @@ import {
 } from "firebase/auth";
 import { useEffect, useState } from "react";
 import initializeAuthentication from "../Firebase/firebase.init";
+import axios from "axios";
 
 initializeAuthentication();
 
@@ -26,10 +27,18 @@ const useFirebase = () => {
     const googleProvider = new GoogleAuthProvider();
     signInWithPopup(auth, googleProvider)
       .then((result) => {
+        // Save user data to database
+        axios
+          .put("http://localhost:5000/users", {
+            displayName: result.user.displayName,
+            email: result.user.email,
+          })
+          .then((res) => {});
+
         navigate("/");
         const user = result.user;
         setAuthError("");
-        setUser(user);
+        setUser({ ...user, role: "user" });
         setLoading(false);
       })
       .catch((error) => {
@@ -45,8 +54,16 @@ const useFirebase = () => {
         setAuthError("");
 
         // Set user to user state
-        const newUser = { email, displayName: name };
+        const newUser = { email, displayName: name, role: "user" };
         setUser(newUser);
+
+        // Set user to database
+        axios
+          .post("http://localhost:5000/users", {
+            displayName: name,
+            email: email,
+          })
+          .then((res) => console.log(res.data));
 
         // Set user to firebase
         updateProfile(auth.currentUser, {
@@ -91,6 +108,11 @@ const useFirebase = () => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setUser(user);
+      axios.get(`http://localhost:5000/users/${user?.email}`).then((res) => {
+        if (res?.data?.role) {
+          setUser({ ...user, role: res?.data?.role });
+        }
+      });
       setAuthError("");
       setLoading(false);
     });

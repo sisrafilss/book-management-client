@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Link, NavLink, useNavigate } from "react-router-dom";
+import React from "react";
+import { Link, NavLink } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 
 const Header = () => {
@@ -7,16 +7,6 @@ const Header = () => {
 
   const handleLogOut = () => {
     logOut();
-  };
-
-  const [activeRoute, setActiveRoute] = useState("home");
-  const navigate = useNavigate();
-
-  const handleClick = (routeName, event) => {
-    event.preventDefault();
-    setActiveRoute(routeName);
-    console.log(routeName);
-    navigate(`/${routeName}`);
   };
 
   return (
@@ -48,6 +38,13 @@ const Header = () => {
             <NavLink className={"nav-link px-3 mx-2"} to="/add-book">
               Add Book
             </NavLink>
+
+            {user?.role === "admin" && (
+              <NavLink className={"nav-link px-3 mx-2"} to="/make-admin">
+                Make Admin
+              </NavLink>
+            )}
+
             {user?.email ? (
               <>
                 <button
@@ -64,6 +61,11 @@ const Header = () => {
               <NavLink className={"nav-link px-3 mx-2"} to="/login">
                 Login
               </NavLink>
+            )}
+            {user?.email && (
+              <span className="text-white mt-2 ms-3">
+                Role: {user?.role}
+              </span>
             )}
           </div>
         </div>
