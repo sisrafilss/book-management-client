@@ -14,7 +14,7 @@ const MakeAdmin = () => {
   const { register, handleSubmit, errors, reset } = useForm();
   const onSubmit = (data) => {
     axios
-      .put(`http://localhost:5000/make-admin/${user.email}`, data)
+      .put(`https://book-management-server-k51n.onrender.com/make-admin/${user.email}`, data)
       .then((res) => {
         console.log(res.data);
         if (res?.data?.status === 200) {

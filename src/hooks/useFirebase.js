@@ -29,7 +29,7 @@ const useFirebase = () => {
       .then((result) => {
         // Save user data to database
         axios
-          .put("http://localhost:5000/users", {
+          .put("https://book-management-server-k51n.onrender.com/users", {
             displayName: result.user.displayName,
             email: result.user.email,
           })
@@ -59,7 +59,7 @@ const useFirebase = () => {
 
         // Set user to database
         axios
-          .post("http://localhost:5000/users", {
+          .post("https://book-management-server-k51n.onrender.com/users", {
             displayName: name,
             email: email,
           })
@@ -108,7 +108,7 @@ const useFirebase = () => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setUser(user);
-      axios.get(`http://localhost:5000/users/${user?.email}`).then((res) => {
+      axios.get(`https://book-management-server-k51n.onrender.com/users/${user?.email}`).then((res) => {
         if (res?.data?.role) {
           setUser({ ...user, role: res?.data?.role });
         }

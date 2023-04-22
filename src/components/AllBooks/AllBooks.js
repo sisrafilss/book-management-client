@@ -19,7 +19,7 @@ const AllBooks = () => {
 
   useEffect(() => {
     setLoading(true);
-    axios.get("http://localhost:5000/all-books").then((res) => {
+    axios.get("https://book-management-server-k51n.onrender.com/all-books").then((res) => {
       setAllBooks(res?.data);
       setBookStore(res?.data);
       setLoading(false);
@@ -45,7 +45,7 @@ const AllBooks = () => {
     if (proceed) {
       // send delete request...
       axios
-        .delete(`http://localhost:5000/delete-book/${id}`)
+        .delete(`https://book-management-server-k51n.onrender.com/delete-book/${id}`)
         .then((res) => {
           setSuccess(true);
           const restBooks = bookStore.filter((book) => book._id !== id);
